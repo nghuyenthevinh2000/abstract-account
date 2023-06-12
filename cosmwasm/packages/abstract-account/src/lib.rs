@@ -5,8 +5,9 @@ use cosmwasm_std::Binary;
 
 #[cw_serde]
 pub struct Any {
-    pub type_url: String,
-    pub value:    Binary,
+    pub type_url:       String,
+    pub app_address:    String,
+    pub value:          Binary,
 }
 
 /// Any contract must implement this sudo message (both variants) in order to
