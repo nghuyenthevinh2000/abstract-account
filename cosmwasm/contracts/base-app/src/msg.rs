@@ -8,4 +8,15 @@ pub enum ExecuteMsg {}
 
 #[cw_serde]
 #[derive(QueryResponses)]
-pub enum QueryMsg {}
+pub enum QueryMsg {
+
+    #[returns(VerifiedResponse)]
+    Verified {
+        token_hash: Vec<u8>
+    },
+}
+
+#[cw_serde]
+pub struct VerifiedResponse {
+    pub verified: bool,
+}

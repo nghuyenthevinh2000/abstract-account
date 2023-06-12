@@ -23,6 +23,7 @@ library = []
 [dependencies]
 abstract-account = { path = "../../packages/abstract-account" }
 account-base     = { path = "../base", features = ["library"] }
+app-base         = { path = "../base-app", features = ["library"] }
 cosmwasm-schema  = { workspace = true }
 cosmwasm-std     = { workspace = true }
 cw2              = { workspace = true }

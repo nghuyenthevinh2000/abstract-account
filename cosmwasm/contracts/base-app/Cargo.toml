@@ -1,5 +1,5 @@
 [package]
-name          = "base-app"
+name          = "app-base"
 description   = "A contract that defines the base of a smart contract application"
 version       = { workspace = true }
 rust-version  = { workspace = true }

@@ -34,8 +34,8 @@ pub enum SudoMsg {
 
 #[cw_serde]
 pub struct AccessToken {
-    app_address:    String,
-    access_token:   String,
+    pub app_address:    String,
+    pub access_token:   String,
 }
 
 #[cw_serde]
