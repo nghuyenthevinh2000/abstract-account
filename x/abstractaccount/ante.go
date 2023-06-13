@@ -12,6 +12,8 @@ import (
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
+
 	"github.com/larry0x/abstract-account/x/abstractaccount/keeper"
 	"github.com/larry0x/abstract-account/x/abstractaccount/types"
 )
@@ -50,50 +52,54 @@ func NewBeforeTxDecorator(aak keeper.Keeper, ak authante.AccountKeeper, signMode
 }
 
 func (d BeforeTxDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
-	// First we need to determine whether the rules of account abstraction should
-	// apply to this tx. There are two criteria:
+	// first we need to determine whether the rules of account abstraction should
+	// apply to this tx. there are two criteria:
 	//
-	// - The tx has exactly one signer and one signature
-	// - This one signer is an AbstractAccount
+	// - the tx has exactly one signer and one signature
+	// - this one signer is an AbstractAccount
 	//
-	// Both criteria must be satisfied for this be to be qualified as an AA tx.
+	// both criteria must be satisfied for this be to be qualified as an AA tx.
 	isAbstractAccountTx, signerAcc, sig, err := IsAbstractAccountTx(ctx, tx, d.ak)
 	if err != nil {
 		return ctx, err
 	}
 
-	// If the tx is an AA tx, we save the signer address to the module store.
-	// We will use it in the PostHandler.
-	//
-	// If it's not an AA tx, we simply delegate the ante task to the default
-	// SigVerificationDecorator.
-	if isAbstractAccountTx {
-		d.aak.SetSignerAddress(ctx, signerAcc.GetAddress())
-	} else {
+	// if the tx isn't an AA tx, we simply delegate the ante task to the default
+	// SigVerificationDecorator
+	if !isAbstractAccountTx {
 		svd := authante.NewSigVerificationDecorator(d.ak, d.signModeHandler)
 		return svd.AnteHandle(ctx, tx, simulate, next)
 	}
 
-	// Check account sequence number
+	// save the account address to the module store. we will need it in the
+	// posthandler
+	//
+	// TODO: a question is that instead of writing to store, can we just put this
+	// in memory instead. in practice however, the address is deleted in the post
+	// handler, so it's never actually written to disk, meaning the difference in
+	// gas consumption should be really small. still worth investigating tho.
+	d.aak.SetSignerAddress(ctx, signerAcc.GetAddress())
+
+	// check account sequence number
 	if sig.Sequence != signerAcc.GetSequence() {
 		return ctx, sdkerrors.ErrWrongSequence.Wrapf("account sequence mismatch, expected %d, got %d", signerAcc.GetSequence(), sig.Sequence)
 	}
 
-	// Now that we've determined the tx is an AA tx, let us prepare the SudoMsg
+	// now that we've determined the tx is an AA tx, let us prepare the SudoMsg
 	// that will be used to invoke the account contract. The msg includes:
 	//
-	// - The messages in the tx, converted to []Any
-	// - The sign bytes
-	// - The credential
+	// - the messages in the tx, converted to []Any
+	// - the sign bytes
+	// - the credential
 	//
-	// Firstly let's prepare the messages.
+	// firstly let's prepare the messages.
 	msgAnys, err := sdkMsgsToAnys(tx.GetMsgs())
 	if err != nil {
 		return ctx, err
 	}
 
-	// Then let us the prepare the sign bytes and credentiale.
-	// Logics here are mostly copied over from the SigVerificationDecorator.
+	// then let us the prepare the sign bytes and credentiale.
+	// logics here are mostly copied over from the SigVerificationDecorator.
 	signBytes, sigBytes, err := prepareCredentials(ctx, tx, signerAcc, sig.Data, d.signModeHandler)
 	if err != nil {
 		return ctx, err
@@ -120,8 +126,12 @@ func (d BeforeTxDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool,
 		return ctx, err
 	}
 
-	_, err = d.aak.ContractKeeper().Sudo(ctx, signerAcc.GetAddress(), sudoMsgBytes)
+	params, err := d.aak.GetParams(ctx)
 	if err != nil {
+		return ctx, err
+	}
+
+	if err := sudoWithGasLimit(ctx, d.aak.ContractKeeper(), signerAcc.GetAddress(), sudoMsgBytes, params.MaxGasBefore); err != nil {
 		return ctx, err
 	}
 
@@ -139,30 +149,29 @@ func NewAfterTxDecorator(aak keeper.Keeper) AfterTxDecorator {
 }
 
 func (d AfterTxDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simulate, success bool, next sdk.PostHandler) (newCtx sdk.Context, err error) {
-	// Load the signer address, which we determined during the AnteHandler.
+	// load the signer address, which we determined during the AnteHandler
 	//
-	// If found, we delete it from module store since it's not needed for handling
-	// the next tx.
-	//
-	// If not found, it means this tx is not an AA tx, in which case we skip.
+	// if not found, it means this tx is simply not an AA tx. we skip
 	signerAddr := d.aak.GetSignerAddress(ctx)
-	if signerAddr != nil {
-		d.aak.DeleteSignerAddress(ctx)
-	} else {
+	if signerAddr == nil {
 		return next(ctx, tx, simulate, success)
 	}
 
+	d.aak.DeleteSignerAddress(ctx)
+
 	sudoMsgBytes, err := json.Marshal(&types.AccountSudoMsg{
-		AfterTx: &types.AfterTx{
-			Success: success,
-		},
+		AfterTx: &types.AfterTx{},
 	})
 	if err != nil {
 		return ctx, err
 	}
 
-	_, err = d.aak.ContractKeeper().Sudo(ctx, signerAddr, sudoMsgBytes)
+	params, err := d.aak.GetParams(ctx)
 	if err != nil {
+		return ctx, err
+	}
+
+	if err := sudoWithGasLimit(ctx, d.aak.ContractKeeper(), signerAddr, sudoMsgBytes, params.MaxGasBefore); err != nil {
 		return ctx, err
 	}
 
@@ -238,4 +247,27 @@ func sdkMsgsToAnys(msgs []sdk.Msg) ([]*types.Any, error) {
 	}
 
 	return anys, nil
+}
+
+// Call a contract's sudo entry point with a gas limit.
+//
+// Copied from Osmosis' protorev posthandler:
+// https://github.com/osmosis-labs/osmosis/blob/98025f185ab2ee1b060511ed22679112abcc08fa/x/protorev/keeper/posthandler.go#L42-L43
+//
+// Thanks Roman and Jorge for the helpful discussion.
+func sudoWithGasLimit(
+	ctx sdk.Context, contractKeeper wasmtypes.ContractOpsKeeper,
+	contractAddr sdk.AccAddress, msg []byte, maxGas sdk.Gas,
+) error {
+	cacheCtx, write := ctx.CacheContext()
+	cacheCtx = cacheCtx.WithGasMeter(sdk.NewGasMeter(maxGas))
+
+	if _, err := contractKeeper.Sudo(cacheCtx, contractAddr, msg); err != nil {
+		return err
+	}
+
+	write()
+	ctx.EventManager().EmitEvents(cacheCtx.EventManager().Events())
+
+	return nil
 }

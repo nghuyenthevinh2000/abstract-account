@@ -7,7 +7,13 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
-var _ sdk.Msg = &MsgRegisterAccount{}
+var (
+	_ sdk.Msg = &MsgRegisterAccount{}
+	_ sdk.Msg = &MsgMigrateAccount{}
+	_ sdk.Msg = &MsgUpdateParams{}
+)
+
+// ------------------------------ RegisterAccount ------------------------------
 
 func (m *MsgRegisterAccount) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(m.Sender); err != nil {
@@ -32,6 +38,46 @@ func (m *MsgRegisterAccount) ValidateBasic() error {
 func (m *MsgRegisterAccount) GetSigners() []sdk.AccAddress {
 	// We've already asserted the sender address is valid in ValidateBasic, so we
 	// can safety ignore the error here.
+	senderAddr, _ := sdk.AccAddressFromBech32(m.Sender)
+
+	return []sdk.AccAddress{senderAddr}
+}
+
+// ------------------------------ MigrateAccount -------------------------------
+
+func (m *MsgMigrateAccount) ValidateBasic() error {
+	if _, err := sdk.AccAddressFromBech32(m.Sender); err != nil {
+		return sdkerrors.ErrInvalidRequest.Wrap("invalid sender address")
+	}
+
+	if m.CodeID == 0 {
+		return sdkerrors.ErrInvalidRequest.Wrap("code id cannot be zero")
+	}
+
+	if err := m.Msg.ValidateBasic(); err != nil {
+		return sdkerrors.ErrInvalidRequest.Wrapf("invalid init msg: %s", err.Error())
+	}
+
+	return nil
+}
+
+func (m *MsgMigrateAccount) GetSigners() []sdk.AccAddress {
+	senderAddr, _ := sdk.AccAddressFromBech32(m.Sender)
+
+	return []sdk.AccAddress{senderAddr}
+}
+
+// ------------------------------- UpdateParams --------------------------------
+
+func (m *MsgUpdateParams) ValidateBasic() error {
+	if _, err := sdk.AccAddressFromBech32(m.Sender); err != nil {
+		return sdkerrors.ErrInvalidRequest.Wrap("invalid sender address")
+	}
+
+	return m.Params.Validate()
+}
+
+func (m *MsgUpdateParams) GetSigners() []sdk.AccAddress {
 	senderAddr, _ := sdk.AccAddressFromBech32(m.Sender)
 
 	return []sdk.AccAddress{senderAddr}

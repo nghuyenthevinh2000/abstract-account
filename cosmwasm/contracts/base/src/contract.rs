@@ -32,7 +32,6 @@ pub fn sudo(deps: DepsMut, _env: Env, msg: AccountSudoMsg) -> ContractResult<Res
             ..
         } => execute::before_tx(deps.as_ref(), &tx_bytes, &credential),
         AccountSudoMsg::AfterTx {
-            ..
         } => execute::after_tx(),
     }
 }
@@ -52,4 +51,10 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
         QueryMsg::Pubkey {} => to_binary(&query::pubkey(deps.storage)?),
     }
+}
+
+#[entry_point]
+pub fn migrate(_deps: DepsMut, _env: Env, _msg: Empty) -> StdResult<Response> {
+    // used in test only
+    Ok(Response::new())
 }

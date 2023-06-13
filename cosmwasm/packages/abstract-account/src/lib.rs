@@ -34,7 +34,5 @@ pub enum AccountSudoMsg {
     },
 
     /// Called by the PostHandler's AfterTxDecorator after the tx is executed.
-    AfterTx {
-        success: bool,
-    },
+    AfterTx {},
 }

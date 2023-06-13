@@ -79,6 +79,41 @@ func (m *MsgRegisterAccount) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgRegisterAccount proto.InternalMessageInfo
 
+func (m *MsgRegisterAccount) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgRegisterAccount) GetCodeID() uint64 {
+	if m != nil {
+		return m.CodeID
+	}
+	return 0
+}
+
+func (m *MsgRegisterAccount) GetMsg() github_com_CosmWasm_wasmd_x_wasm_types.RawContractMessage {
+	if m != nil {
+		return m.Msg
+	}
+	return nil
+}
+
+func (m *MsgRegisterAccount) GetFunds() github_com_cosmos_cosmos_sdk_types.Coins {
+	if m != nil {
+		return m.Funds
+	}
+	return nil
+}
+
+func (m *MsgRegisterAccount) GetSalt() []byte {
+	if m != nil {
+		return m.Salt
+	}
+	return nil
+}
+
 type MsgRegisterAccountResponse struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	Data    []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
@@ -131,45 +166,251 @@ func (m *MsgRegisterAccountResponse) GetData() []byte {
 	return nil
 }
 
+type MsgMigrateAccount struct {
+	// Sender is the account that is to be migrated
+	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	// CodeID is the code ID that the account is to be migrated to
+	CodeID uint64 `protobuf:"varint,2,opt,name=code_id,json=codeId,proto3" json:"code_id,omitempty"`
+	// Msg is the JSON-encoded migrate message for the contract
+	Msg github_com_CosmWasm_wasmd_x_wasm_types.RawContractMessage `protobuf:"bytes,3,opt,name=msg,proto3,casttype=github.com/CosmWasm/wasmd/x/wasm/types.RawContractMessage" json:"msg,omitempty"`
+}
+
+func (m *MsgMigrateAccount) Reset()         { *m = MsgMigrateAccount{} }
+func (m *MsgMigrateAccount) String() string { return proto.CompactTextString(m) }
+func (*MsgMigrateAccount) ProtoMessage()    {}
+func (*MsgMigrateAccount) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4465d01d989b2415, []int{2}
+}
+func (m *MsgMigrateAccount) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgMigrateAccount) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgMigrateAccount.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgMigrateAccount) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgMigrateAccount.Merge(m, src)
+}
+func (m *MsgMigrateAccount) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgMigrateAccount) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgMigrateAccount.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgMigrateAccount proto.InternalMessageInfo
+
+func (m *MsgMigrateAccount) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgMigrateAccount) GetCodeID() uint64 {
+	if m != nil {
+		return m.CodeID
+	}
+	return 0
+}
+
+func (m *MsgMigrateAccount) GetMsg() github_com_CosmWasm_wasmd_x_wasm_types.RawContractMessage {
+	if m != nil {
+		return m.Msg
+	}
+	return nil
+}
+
+type MsgMigrateAccountResponse struct {
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (m *MsgMigrateAccountResponse) Reset()         { *m = MsgMigrateAccountResponse{} }
+func (m *MsgMigrateAccountResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgMigrateAccountResponse) ProtoMessage()    {}
+func (*MsgMigrateAccountResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4465d01d989b2415, []int{3}
+}
+func (m *MsgMigrateAccountResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgMigrateAccountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgMigrateAccountResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgMigrateAccountResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgMigrateAccountResponse.Merge(m, src)
+}
+func (m *MsgMigrateAccountResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgMigrateAccountResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgMigrateAccountResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgMigrateAccountResponse proto.InternalMessageInfo
+
+func (m *MsgMigrateAccountResponse) GetData() []byte {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type MsgUpdateParams struct {
+	Sender string  `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Params *Params `protobuf:"bytes,2,opt,name=params,proto3" json:"params,omitempty"`
+}
+
+func (m *MsgUpdateParams) Reset()         { *m = MsgUpdateParams{} }
+func (m *MsgUpdateParams) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateParams) ProtoMessage()    {}
+func (*MsgUpdateParams) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4465d01d989b2415, []int{4}
+}
+func (m *MsgUpdateParams) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateParams.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateParams) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateParams.Merge(m, src)
+}
+func (m *MsgUpdateParams) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateParams) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateParams.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateParams proto.InternalMessageInfo
+
+func (m *MsgUpdateParams) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+func (m *MsgUpdateParams) GetParams() *Params {
+	if m != nil {
+		return m.Params
+	}
+	return nil
+}
+
+type MsgUpdateParamsResponse struct {
+}
+
+func (m *MsgUpdateParamsResponse) Reset()         { *m = MsgUpdateParamsResponse{} }
+func (m *MsgUpdateParamsResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateParamsResponse) ProtoMessage()    {}
+func (*MsgUpdateParamsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4465d01d989b2415, []int{5}
+}
+func (m *MsgUpdateParamsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateParamsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateParamsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateParamsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateParamsResponse.Merge(m, src)
+}
+func (m *MsgUpdateParamsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateParamsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateParamsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateParamsResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgRegisterAccount)(nil), "larry.abstractaccount.v1.MsgRegisterAccount")
 	proto.RegisterType((*MsgRegisterAccountResponse)(nil), "larry.abstractaccount.v1.MsgRegisterAccountResponse")
+	proto.RegisterType((*MsgMigrateAccount)(nil), "larry.abstractaccount.v1.MsgMigrateAccount")
+	proto.RegisterType((*MsgMigrateAccountResponse)(nil), "larry.abstractaccount.v1.MsgMigrateAccountResponse")
+	proto.RegisterType((*MsgUpdateParams)(nil), "larry.abstractaccount.v1.MsgUpdateParams")
+	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "larry.abstractaccount.v1.MsgUpdateParamsResponse")
 }
 
 func init() { proto.RegisterFile("abstractaccount/v1/tx.proto", fileDescriptor_4465d01d989b2415) }
 
 var fileDescriptor_4465d01d989b2415 = []byte{
-	// 475 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcf, 0x6b, 0x14, 0x31,
-	0x14, 0xc7, 0x27, 0xdd, 0x1f, 0xc5, 0x58, 0x10, 0xa2, 0xe8, 0xb8, 0xc2, 0xcc, 0x52, 0x2f, 0x43,
-	0xb1, 0x49, 0xb7, 0x7a, 0x51, 0xf1, 0xe0, 0xae, 0x97, 0x0a, 0x8b, 0x10, 0x10, 0xc1, 0x8b, 0x64,
-	0x26, 0x31, 0x0e, 0x76, 0x26, 0xcb, 0xbc, 0xec, 0x76, 0x7b, 0x13, 0xbd, 0x78, 0xf4, 0x4f, 0xe8,
-	0xd9, 0x83, 0xf4, 0xcf, 0xe8, 0xb1, 0x47, 0x4f, 0xab, 0xec, 0x1e, 0xea, 0xdf, 0xe0, 0x49, 0x26,
-	0x33, 0x83, 0xa5, 0xc5, 0x83, 0xa7, 0x7c, 0xf3, 0x5e, 0xf2, 0xbe, 0x79, 0x9f, 0x3c, 0x7c, 0x47,
-	0xc4, 0x60, 0x0b, 0x91, 0x58, 0x91, 0x24, 0x66, 0x9a, 0x5b, 0x36, 0x1b, 0x30, 0x3b, 0xa7, 0x93,
-	0xc2, 0x58, 0x43, 0xfc, 0x7d, 0x51, 0x14, 0x87, 0xf4, 0xc2, 0x11, 0x3a, 0x1b, 0xf4, 0x82, 0xc4,
-	0x40, 0x66, 0x80, 0xc5, 0x02, 0x14, 0x9b, 0x0d, 0x62, 0x65, 0xc5, 0x80, 0x25, 0x26, 0xcd, 0xab,
-	0x9b, 0xbd, 0x5b, 0x75, 0x3e, 0x03, 0x5d, 0x56, 0xcc, 0x40, 0xd7, 0x89, 0x1b, 0xda, 0x68, 0xe3,
-	0x24, 0x2b, 0x55, 0x15, 0xdd, 0xfc, 0xb6, 0x86, 0xc9, 0x18, 0x34, 0x57, 0x3a, 0x05, 0xab, 0x8a,
-	0xa7, 0x95, 0x11, 0xb9, 0x89, 0xbb, 0xa0, 0x72, 0xa9, 0x0a, 0x1f, 0xf5, 0x51, 0x74, 0x85, 0xd7,
-	0x3b, 0x72, 0x17, 0xaf, 0x27, 0x46, 0xaa, 0x37, 0xa9, 0xf4, 0xd7, 0xfa, 0x28, 0x6a, 0x0f, 0xf1,
-	0x72, 0x11, 0x76, 0x47, 0x46, 0xaa, 0xbd, 0x67, 0xbc, 0x5b, 0xa6, 0xf6, 0x24, 0x79, 0x81, 0x5b,
-	0x19, 0x68, 0xbf, 0xd5, 0x47, 0xd1, 0xc6, 0xf0, 0xc9, 0xef, 0x45, 0xf8, 0x50, 0xa7, 0xf6, 0xdd,
-	0x34, 0xa6, 0x89, 0xc9, 0xd8, 0xc8, 0x40, 0xf6, 0x4a, 0x40, 0xc6, 0x0e, 0x04, 0x64, 0x92, 0xcd,
-	0xdd, 0xca, 0xec, 0xe1, 0x44, 0x01, 0xe5, 0xe2, 0x60, 0x64, 0x72, 0xd7, 0xf1, 0x58, 0x01, 0x08,
-	0xad, 0x78, 0x59, 0x89, 0x08, 0xdc, 0x79, 0x3b, 0xcd, 0x25, 0xf8, 0xed, 0x7e, 0x2b, 0xba, 0xba,
-	0x7b, 0x9b, 0x56, 0x3d, 0xd2, 0x92, 0x01, 0xad, 0x19, 0xd0, 0x91, 0x49, 0xf3, 0xe1, 0xce, 0xc9,
-	0x22, 0xf4, 0xbe, 0xfe, 0x08, 0xa3, 0x73, 0x8e, 0x35, 0x90, 0x6a, 0xd9, 0x06, 0xf9, 0xbe, 0x76,
-	0x2b, 0x2f, 0x00, 0xaf, 0x2a, 0x13, 0x82, 0xdb, 0x20, 0xf6, 0xad, 0xdf, 0x29, 0x1f, 0xcd, 0x9d,
-	0x7e, 0x74, 0xfd, 0xf3, 0x51, 0xe8, 0xfd, 0x3a, 0x0a, 0xbd, 0x8f, 0x67, 0xc7, 0x5b, 0x35, 0x81,
-	0xcd, 0xe7, 0xb8, 0x77, 0x99, 0x17, 0x57, 0x30, 0x31, 0x39, 0x28, 0xe2, 0xe3, 0x75, 0x21, 0x65,
-	0xa1, 0x00, 0x6a, 0x70, 0xcd, 0xb6, 0x34, 0x90, 0xc2, 0x0a, 0x87, 0x6d, 0x83, 0x3b, 0xbd, 0xfb,
-	0x09, 0xe1, 0xd6, 0x18, 0x34, 0x99, 0xe2, 0x6b, 0x17, 0x3f, 0xe0, 0x1e, 0xfd, 0xd7, 0x04, 0xd0,
-	0xcb, 0xf6, 0xbd, 0x07, 0xff, 0x73, 0xba, 0x79, 0x6c, 0xaf, 0xf3, 0xe1, 0xec, 0x78, 0x0b, 0x0d,
-	0x5f, 0x9e, 0x2c, 0x03, 0x74, 0xba, 0x0c, 0xd0, 0xcf, 0x65, 0x80, 0xbe, 0xac, 0x02, 0xef, 0x74,
-	0x15, 0x78, 0xdf, 0x57, 0x81, 0xf7, 0xfa, 0xf1, 0x39, 0x8a, 0xce, 0x60, 0x67, 0xce, 0x1a, 0x8b,
-	0xed, 0x66, 0x6c, 0xff, 0x86, 0x9a, 0x88, 0xc3, 0x1b, 0x77, 0xdd, 0x80, 0xdd, 0xff, 0x13, 0x00,
-	0x00, 0xff, 0xff, 0x8f, 0x2a, 0xa4, 0x66, 0xe8, 0x02, 0x00, 0x00,
+	// 584 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x54, 0xcb, 0x6e, 0xd3, 0x4c,
+	0x14, 0x8e, 0x73, 0xab, 0xfe, 0x49, 0xf4, 0x57, 0x58, 0x88, 0x3a, 0x46, 0x72, 0xa2, 0xb0, 0x09,
+	0x85, 0x7a, 0x9a, 0x94, 0x05, 0x17, 0xb1, 0x20, 0x61, 0x53, 0x24, 0x0b, 0x64, 0xa9, 0x42, 0x62,
+	0x83, 0x26, 0x9e, 0x61, 0xb0, 0x88, 0x3d, 0x96, 0xcf, 0x24, 0x4d, 0x77, 0x88, 0x27, 0xe0, 0x29,
+	0x58, 0xb0, 0x40, 0x7d, 0x8c, 0x2e, 0xbb, 0x64, 0x15, 0x50, 0x22, 0xd4, 0x77, 0x60, 0x85, 0x7c,
+	0x0b, 0xb9, 0x90, 0x8a, 0xee, 0x58, 0xf9, 0x78, 0xce, 0x39, 0xdf, 0x77, 0xbe, 0xcf, 0xc7, 0x83,
+	0x6e, 0x92, 0x3e, 0xc8, 0x90, 0x38, 0x92, 0x38, 0x8e, 0x18, 0xfa, 0x12, 0x8f, 0xda, 0x58, 0x8e,
+	0xcd, 0x20, 0x14, 0x52, 0xa8, 0xda, 0x80, 0x84, 0xe1, 0x89, 0xb9, 0x52, 0x62, 0x8e, 0xda, 0x7a,
+	0xfd, 0x0f, 0x6d, 0x01, 0x09, 0x89, 0x07, 0x49, 0xab, 0x6e, 0x38, 0x02, 0x3c, 0x01, 0xb8, 0x4f,
+	0x80, 0xe1, 0x51, 0xbb, 0xcf, 0x24, 0x69, 0x63, 0x47, 0xb8, 0x7e, 0x9a, 0xdf, 0x49, 0xf3, 0x1e,
+	0xf0, 0xa8, 0xd7, 0x03, 0x9e, 0x26, 0xae, 0x73, 0xc1, 0x45, 0x1c, 0xe2, 0x28, 0x4a, 0x4e, 0x9b,
+	0x9f, 0xf2, 0x48, 0xb5, 0x80, 0xdb, 0x8c, 0xbb, 0x20, 0x59, 0xf8, 0x24, 0x61, 0x55, 0x6f, 0xa0,
+	0x32, 0x30, 0x9f, 0xb2, 0x50, 0x53, 0x1a, 0x4a, 0xeb, 0x3f, 0x3b, 0x7d, 0x53, 0x6f, 0xa1, 0x2d,
+	0x47, 0x50, 0xf6, 0xda, 0xa5, 0x5a, 0xbe, 0xa1, 0xb4, 0x8a, 0x5d, 0x34, 0x9d, 0xd4, 0xcb, 0x3d,
+	0x41, 0xd9, 0xe1, 0x53, 0xbb, 0x1c, 0xa5, 0x0e, 0xa9, 0xfa, 0x1c, 0x15, 0x3c, 0xe0, 0x5a, 0xa1,
+	0xa1, 0xb4, 0xaa, 0xdd, 0xc7, 0x3f, 0x27, 0xf5, 0x07, 0xdc, 0x95, 0x6f, 0x87, 0x7d, 0xd3, 0x11,
+	0x1e, 0xee, 0x09, 0xf0, 0x5e, 0x12, 0xf0, 0xf0, 0x31, 0x01, 0x8f, 0xe2, 0x71, 0xfc, 0xc4, 0xf2,
+	0x24, 0x60, 0x60, 0xda, 0xe4, 0xb8, 0x27, 0xfc, 0x58, 0xbe, 0xc5, 0x00, 0x08, 0x67, 0x76, 0x84,
+	0xa4, 0x12, 0x54, 0x7a, 0x33, 0xf4, 0x29, 0x68, 0xc5, 0x46, 0xa1, 0x55, 0xe9, 0xd4, 0xcc, 0x44,
+	0xa3, 0x19, 0x79, 0x60, 0xa6, 0x1e, 0x98, 0x3d, 0xe1, 0xfa, 0xdd, 0xfd, 0xb3, 0x49, 0x3d, 0xf7,
+	0xf9, 0x5b, 0xbd, 0xb5, 0xc0, 0x98, 0x1a, 0x92, 0x3c, 0xf6, 0x80, 0xbe, 0x4b, 0xd9, 0xa2, 0x06,
+	0xb0, 0x13, 0x64, 0x55, 0x45, 0x45, 0x20, 0x03, 0xa9, 0x95, 0xa2, 0xa1, 0xed, 0x38, 0x7e, 0x58,
+	0xf9, 0x70, 0x71, 0xba, 0x9b, 0x2a, 0x6f, 0x3e, 0x43, 0xfa, 0xba, 0x4f, 0x36, 0x83, 0x40, 0xf8,
+	0xc0, 0x54, 0x0d, 0x6d, 0x11, 0x4a, 0x43, 0x06, 0x90, 0x1a, 0x96, 0xbd, 0x46, 0xc0, 0x94, 0x48,
+	0x12, 0xdb, 0x55, 0xb5, 0xe3, 0xb8, 0xf9, 0x45, 0x41, 0xd7, 0x2c, 0xe0, 0x96, 0xcb, 0x43, 0x22,
+	0xd9, 0x3f, 0xe9, 0xf9, 0xb2, 0x78, 0x8c, 0x6a, 0x6b, 0xf3, 0xce, 0xb5, 0x67, 0x0a, 0x95, 0x05,
+	0x85, 0x01, 0xda, 0xb6, 0x80, 0x1f, 0x05, 0x94, 0x48, 0xf6, 0x22, 0x5e, 0xdf, 0x8d, 0xf2, 0xee,
+	0xa3, 0x72, 0xb2, 0xe0, 0xb1, 0xba, 0x4a, 0xa7, 0x61, 0x6e, 0xfa, 0x39, 0xcc, 0x04, 0xc9, 0x4e,
+	0xeb, 0x97, 0x47, 0xac, 0xa1, 0x9d, 0x15, 0xc6, 0x6c, 0xc0, 0xce, 0x8f, 0x3c, 0x2a, 0x58, 0xc0,
+	0xd5, 0x21, 0xda, 0x5e, 0xdd, 0xf3, 0xbb, 0x9b, 0xc9, 0xd6, 0xbf, 0xb6, 0x7e, 0xef, 0x2a, 0xd5,
+	0x73, 0x7f, 0x42, 0xf4, 0xff, 0xca, 0x97, 0xbe, 0x73, 0x29, 0xce, 0x72, 0xb1, 0x7e, 0x70, 0x85,
+	0xe2, 0x39, 0xe7, 0x00, 0x55, 0x97, 0xcc, 0xbf, 0x7d, 0x29, 0xc8, 0x62, 0xa9, 0xde, 0xfe, 0xeb,
+	0xd2, 0x8c, 0x4d, 0x2f, 0xbd, 0xbf, 0x38, 0xdd, 0x55, 0xba, 0x47, 0x67, 0x53, 0x43, 0x39, 0x9f,
+	0x1a, 0xca, 0xf7, 0xa9, 0xa1, 0x7c, 0x9c, 0x19, 0xb9, 0xf3, 0x99, 0x91, 0xfb, 0x3a, 0x33, 0x72,
+	0xaf, 0x1e, 0x2d, 0x2c, 0x63, 0x8c, 0xbe, 0x3f, 0xc6, 0x19, 0xfe, 0x5e, 0x76, 0xd3, 0xfd, 0x3e,
+	0xca, 0x4e, 0xe2, 0x0d, 0xed, 0x97, 0xe3, 0x9b, 0xea, 0xe0, 0x57, 0x00, 0x00, 0x00, 0xff, 0xff,
+	0x90, 0xe3, 0x0a, 0xc8, 0x52, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -184,9 +425,12 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	// Register a new abstract account by instantiating a new CosmWasm smart
-	// contract.
+	// Register a new AbstractAccount.
 	RegisterAccount(ctx context.Context, in *MsgRegisterAccount, opts ...grpc.CallOption) (*MsgRegisterAccountResponse, error)
+	// Migrate an existing AbstractAccount to a new code ID.
+	MigrateAccount(ctx context.Context, in *MsgMigrateAccount, opts ...grpc.CallOption) (*MsgMigrateAccountResponse, error)
+	// Update the module's parameters. Can only be called by the authority.
+	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 }
 
 type msgClient struct {
@@ -206,11 +450,32 @@ func (c *msgClient) RegisterAccount(ctx context.Context, in *MsgRegisterAccount,
 	return out, nil
 }
 
+func (c *msgClient) MigrateAccount(ctx context.Context, in *MsgMigrateAccount, opts ...grpc.CallOption) (*MsgMigrateAccountResponse, error) {
+	out := new(MsgMigrateAccountResponse)
+	err := c.cc.Invoke(ctx, "/larry.abstractaccount.v1.Msg/MigrateAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error) {
+	out := new(MsgUpdateParamsResponse)
+	err := c.cc.Invoke(ctx, "/larry.abstractaccount.v1.Msg/UpdateParams", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	// Register a new abstract account by instantiating a new CosmWasm smart
-	// contract.
+	// Register a new AbstractAccount.
 	RegisterAccount(context.Context, *MsgRegisterAccount) (*MsgRegisterAccountResponse, error)
+	// Migrate an existing AbstractAccount to a new code ID.
+	MigrateAccount(context.Context, *MsgMigrateAccount) (*MsgMigrateAccountResponse, error)
+	// Update the module's parameters. Can only be called by the authority.
+	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -219,6 +484,12 @@ type UnimplementedMsgServer struct {
 
 func (*UnimplementedMsgServer) RegisterAccount(ctx context.Context, req *MsgRegisterAccount) (*MsgRegisterAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterAccount not implemented")
+}
+func (*UnimplementedMsgServer) MigrateAccount(ctx context.Context, req *MsgMigrateAccount) (*MsgMigrateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MigrateAccount not implemented")
+}
+func (*UnimplementedMsgServer) UpdateParams(ctx context.Context, req *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -243,6 +514,42 @@ func _Msg_RegisterAccount_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_MigrateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMigrateAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MigrateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/larry.abstractaccount.v1.Msg/MigrateAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MigrateAccount(ctx, req.(*MsgMigrateAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateParams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/larry.abstractaccount.v1.Msg/UpdateParams",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateParams(ctx, req.(*MsgUpdateParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "larry.abstractaccount.v1.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -250,6 +557,14 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterAccount",
 			Handler:    _Msg_RegisterAccount_Handler,
+		},
+		{
+			MethodName: "MigrateAccount",
+			Handler:    _Msg_MigrateAccount_Handler,
+		},
+		{
+			MethodName: "UpdateParams",
+			Handler:    _Msg_UpdateParams_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -356,6 +671,143 @@ func (m *MsgRegisterAccountResponse) MarshalToSizedBuffer(dAtA []byte) (int, err
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgMigrateAccount) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgMigrateAccount) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgMigrateAccount) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Msg) > 0 {
+		i -= len(m.Msg)
+		copy(dAtA[i:], m.Msg)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Msg)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.CodeID != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.CodeID))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgMigrateAccountResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgMigrateAccountResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgMigrateAccountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Data) > 0 {
+		i -= len(m.Data)
+		copy(dAtA[i:], m.Data)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Data)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateParams) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateParams) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateParams) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Params != nil {
+		{
+			size, err := m.Params.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateParamsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateParamsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateParamsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -411,6 +863,65 @@ func (m *MsgRegisterAccountResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
+	return n
+}
+
+func (m *MsgMigrateAccount) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.CodeID != 0 {
+		n += 1 + sovTx(uint64(m.CodeID))
+	}
+	l = len(m.Msg)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgMigrateAccountResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Data)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateParams) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Params != nil {
+		l = m.Params.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateParamsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -718,6 +1229,393 @@ func (m *MsgRegisterAccountResponse) Unmarshal(dAtA []byte) error {
 				m.Data = []byte{}
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgMigrateAccount) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgMigrateAccount: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgMigrateAccount: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CodeID", wireType)
+			}
+			m.CodeID = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CodeID |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Msg", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Msg = append(m.Msg[:0], dAtA[iNdEx:postIndex]...)
+			if m.Msg == nil {
+				m.Msg = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgMigrateAccountResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgMigrateAccountResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgMigrateAccountResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Data = append(m.Data[:0], dAtA[iNdEx:postIndex]...)
+			if m.Data == nil {
+				m.Data = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateParams) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateParams: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateParams: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Params", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Params == nil {
+				m.Params = &Params{}
+			}
+			if err := m.Params.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateParamsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateParamsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateParamsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
